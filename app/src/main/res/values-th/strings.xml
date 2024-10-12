@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Assignment1</string>
+    <string name="weight_kg">น้ำหนัก (กิโลกรัม)</string>
+    <string name="height_cm">ส่วนสูง (เซนติเมตร)</string>
+    <string name="BMI">ค่าดัชนีมวลกาย</string>
+    <string name="result">อยู่ในเกณฑ์</string>
+    <string name="calculator">คำนวณ</string>
+    <string name="Body_Index">ค่าดัชนีมวลกาย</string>
+
+    <string name="severethinness">ผอมเกินไป</string>
+    <string name="moderatethinness">ผอมปานกลาง</string>
+    <string name="mildthinness">ผอมเล็กน้อย</string>
+    <string name="normal">ปกติ</string>
+    <string name="overweight">น้ำหนักเกิน</string>
+    <string name="obeseclass1">อ้วนระดับ 1</string>
+    <string name="obeseclass2">อ้วนระดับ 2</string>
+    <string name="obeseclass3">อ้วนระดับ 3</string>
+</resources>

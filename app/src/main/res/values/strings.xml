@@ -1,0 +1,19 @@
+<resources>
+    <string name="app_name">Assignment1</string>
+    <string name="weight_kg">Weight (Kg)</string>
+    <string name="height_cm">Height (Cm)</string>
+    <string name="BMI">BMI</string>
+    <string name="result">Result</string>
+    <string name="calculator">Calculate</string>
+    <string name="Body_Index">Body Mass Index</string>
+
+    <string name="normal">Normal</string>
+    <string name="severethinness">Severethinness</string>
+    <string name="moderatethinness">Moderatethinness</string>
+    <string name="mildthinness">Mildthinness</string>
+    <string name="overweight">Overweight</string>
+    <string name="obeseclass1">Obeseclass 1</string>
+    <string name="obeseclass2">Obeseclass 2</string>
+    <string name="obeseclass3">Obeseclass 3</string>
+
+</resources>
