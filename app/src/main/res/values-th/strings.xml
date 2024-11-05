@@ -11,9 +11,11 @@
     <string name="severethinness">ผอมเกินไป</string>
     <string name="moderatethinness">ผอมปานกลาง</string>
     <string name="mildthinness">ผอมเล็กน้อย</string>
+    <string name="BMI_History">ประวัติค่าดัชนีมวลกาย</string>
     <string name="normal">ปกติ</string>
     <string name="overweight">น้ำหนักเกิน</string>
     <string name="obeseclass1">อ้วนระดับ 1</string>
     <string name="obeseclass2">อ้วนระดับ 2</string>
     <string name="obeseclass3">อ้วนระดับ 3</string>
+    <string name="Date">วันที่</string>
 </resources>

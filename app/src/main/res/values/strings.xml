@@ -6,6 +6,8 @@
     <string name="result">Result</string>
     <string name="calculator">Calculate</string>
     <string name="Body_Index">Body Mass Index</string>
+    <string name="BMI_History">BMI History</string>
+    <string name="Date">Date</string>
 
     <string name="normal">Normal</string>
     <string name="severethinness">Severethinness</string>
