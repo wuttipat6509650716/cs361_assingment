@@ -7,6 +7,7 @@ import android.text.Spanned;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
@@ -95,6 +96,24 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
+
+        ImageView historyButton = findViewById(R.id.imageView); // ปุ่ม history (ImageView)
+
+        // ตั้งค่า OnClickListener
+        historyButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                boolean isHistoryLayout = false;
+                if (isHistoryLayout) {
+                    setContentView(R.layout.activity_main); // กลับไปที่ layout หลัก
+                    isHistoryLayout = false;
+                } else {
+                    setContentView(R.layout.activity_history); // เปลี่ยนไปใช้ activity_history.xml
+                    isHistoryLayout = true;
+                }
+            }
+        });
+
     }
 
     DecimalFormat formatter = new DecimalFormat("#,###.##");
