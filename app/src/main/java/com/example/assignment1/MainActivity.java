@@ -49,6 +49,7 @@ import static com.example.assignment1.Constants.TIME;
 public class MainActivity extends AppCompatActivity {
 
     private EventsData events;
+    boolean isHistoryLayout = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -140,24 +141,27 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        ImageView historyButton = findViewById(R.id.imageView); // ปุ่ม history (ImageView)
-
-        // ตั้งค่า OnClickListener
-        historyButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                boolean isHistoryLayout = false;
-                if (isHistoryLayout) {
-                    setContentView(R.layout.activity_main); // กลับไปที่ layout หลัก
+        if(isHistoryLayout){
+            ImageView backButton = findViewById(R.id.imageView3);
+            backButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    setContentView(R.layout.activity_main);
                     isHistoryLayout = false;
-                } else {
-                    setContentView(R.layout.activity_history); // เปลี่ยนไปใช้ activity_history.xml
-                    isHistoryLayout = true;
+                }
+            });
+        } else {
+            ImageView historyButton = findViewById(R.id.imageView);
+            historyButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    setContentView(R.layout.activity_history);
                     Cursor cursor = getEvents();
                     showEvents(cursor);
+                    isHistoryLayout = true;
                 }
-            }
-        });
+            });
+        }
 
 
     }
