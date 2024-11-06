@@ -31,6 +31,7 @@ import java.io.FileOutputStream;
 import java.io.InputStreamReader;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -127,8 +128,7 @@ public class MainActivity extends AppCompatActivity {
                 events = new EventsData(MainActivity.this);
                 try {
                     addEvent();
-                    Cursor cursor = getEvents();
-                    showEvents(cursor);
+
                 } catch (Exception error) {
                     error.printStackTrace();
                 } finally {
@@ -153,6 +153,8 @@ public class MainActivity extends AppCompatActivity {
                 } else {
                     setContentView(R.layout.activity_history); // เปลี่ยนไปใช้ activity_history.xml
                     isHistoryLayout = true;
+                    Cursor cursor = getEvents();
+                    showEvents(cursor);
                 }
             }
         });
@@ -215,12 +217,9 @@ public class MainActivity extends AppCompatActivity {
         String bmi_asg2 = et2.getText().toString();
         String result_asg2 = et3.getText().toString();
 
-        SimpleDateFormat sdf = new SimpleDateFormat("d/M/yyyy", Locale.getDefault());
-        String formattedDate = sdf.format(new Date());
-
         SQLiteDatabase db = events.getWritableDatabase();
         ContentValues values = new ContentValues();
-        values.put(TIME, formattedDate);
+        values.put(TIME, System.currentTimeMillis());
         values.put(WEIGHT, weight_asg2);
         values.put(BMI, bmi_asg2);
         values.put(Result, result_asg2);
@@ -240,9 +239,14 @@ public class MainActivity extends AppCompatActivity {
         final ListView listView = findViewById(R.id.listView);
         final ArrayList<HashMap<String, String>> MyArrList = new ArrayList<HashMap<String, String>>();
         HashMap<String, String> map;
+
+        SimpleDateFormat sdf = new SimpleDateFormat("d/M/yyyy", Locale.getDefault());
+
         while(cursor.moveToNext()) {
             map = new HashMap<String, String>();
-            map.put(TIME, String.valueOf(cursor.getLong(1)));
+            long timeInMillis = cursor.getLong(cursor.getColumnIndex(TIME));;
+            String formattedTime = sdf.format(new Date(timeInMillis));
+            map.put(TIME, formattedTime);
             map.put(WEIGHT, cursor.getString(2));
             map.put(BMI, cursor.getString(3));
             map.put(Result, cursor.getString(4));
