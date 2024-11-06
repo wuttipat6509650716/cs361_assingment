@@ -3,6 +3,7 @@ package com.example.assignment1;
 import static android.provider.BaseColumns._ID;
 
 import android.content.ContentValues;
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -49,7 +50,6 @@ import static com.example.assignment1.Constants.TIME;
 public class MainActivity extends AppCompatActivity {
 
     private EventsData events;
-    boolean isHistoryLayout = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -141,7 +141,18 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        if(isHistoryLayout){
+
+        ImageView historyButton = findViewById(R.id.imageView);
+        historyButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, HistoryActivity.class);
+                startActivity(intent);
+            }
+        });
+
+
+        /*if(isHistoryLayout){
             ImageView backButton = findViewById(R.id.imageView3);
             backButton.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -156,12 +167,11 @@ public class MainActivity extends AppCompatActivity {
                 @Override
                 public void onClick(View v) {
                     setContentView(R.layout.activity_history);
-                    Cursor cursor = getEvents();
-                    showEvents(cursor);
+
                     isHistoryLayout = true;
                 }
             });
-        }
+        }*/
 
 
     }
@@ -230,38 +240,6 @@ public class MainActivity extends AppCompatActivity {
         db.insert(TABLE_NAME, null, values);
     }//end addEvent
 
-    private Cursor getEvents() {
-        String[] FROM = {_ID, TIME, WEIGHT, BMI, Result};
-        String ORDER_BY = TIME + " DESC";
-        SQLiteDatabase db = events.getReadableDatabase();
-        Cursor cursor = db.query(TABLE_NAME, FROM, null, null, null, null, ORDER_BY);
-        return cursor;
-    }//end getEvents
-
-    private void showEvents(Cursor cursor) {
-
-        final ListView listView = findViewById(R.id.listView);
-        final ArrayList<HashMap<String, String>> MyArrList = new ArrayList<HashMap<String, String>>();
-        HashMap<String, String> map;
-
-        SimpleDateFormat sdf = new SimpleDateFormat("d/M/yyyy", Locale.getDefault());
-
-        while(cursor.moveToNext()) {
-            map = new HashMap<String, String>();
-            long timeInMillis = cursor.getLong(cursor.getColumnIndex(TIME));;
-            String formattedTime = sdf.format(new Date(timeInMillis));
-            map.put(TIME, formattedTime);
-            map.put(WEIGHT, cursor.getString(2));
-            map.put(BMI, cursor.getString(3));
-            map.put(Result, cursor.getString(4));
-            MyArrList.add(map);
-        }
-        SimpleAdapter sAdap;
-        sAdap = new SimpleAdapter( MainActivity.this, MyArrList, R.layout.activity_column,
-                new String[] {"time", "weight", "BMI", "Result"},
-                new int[] {R.id.col_date_head, R.id.col_weight_head, R.id.col_BMI_head, R.id.col_criteria_head} );
-        listView.setAdapter(sAdap);
-    }//end showEvents
 
 
 

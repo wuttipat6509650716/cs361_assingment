@@ -22,6 +22,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <activity
+            android:name=".HistoryActivity"
+            android:configChanges="locale|fontScale"
+            android:exported="true"/>
     </application>
 
 </manifest>
