@@ -34,6 +34,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.Date;
+import java.util.Locale;
+import java.text.SimpleDateFormat;
 
 import static android.provider.BaseColumns._ID;
 import static com.example.assignment1.Constants.BMI;
@@ -212,9 +215,12 @@ public class MainActivity extends AppCompatActivity {
         String bmi_asg2 = et2.getText().toString();
         String result_asg2 = et3.getText().toString();
 
+        SimpleDateFormat sdf = new SimpleDateFormat("d/M/yyyy", Locale.getDefault());
+        String formattedDate = sdf.format(new Date());
+
         SQLiteDatabase db = events.getWritableDatabase();
         ContentValues values = new ContentValues();
-        values.put(TIME, System.currentTimeMillis());
+        values.put(TIME, formattedDate);
         values.put(WEIGHT, weight_asg2);
         values.put(BMI, bmi_asg2);
         values.put(Result, result_asg2);
@@ -230,20 +236,21 @@ public class MainActivity extends AppCompatActivity {
     }//end getEvents
 
     private void showEvents(Cursor cursor) {
+
         final ListView listView = findViewById(R.id.listView);
         final ArrayList<HashMap<String, String>> MyArrList = new ArrayList<HashMap<String, String>>();
         HashMap<String, String> map;
         while(cursor.moveToNext()) {
             map = new HashMap<String, String>();
-            map.put("time", String.valueOf(cursor.getLong(1)));
-            map.put("weight", cursor.getString(2));
-            map.put("bmi", cursor.getString(3));
-            map.put("result", cursor.getString(4));
+            map.put(TIME, String.valueOf(cursor.getLong(1)));
+            map.put(WEIGHT, cursor.getString(2));
+            map.put(BMI, cursor.getString(3));
+            map.put(Result, cursor.getString(4));
             MyArrList.add(map);
         }
         SimpleAdapter sAdap;
         sAdap = new SimpleAdapter( MainActivity.this, MyArrList, R.layout.activity_column,
-                new String[] {"time", "weight", "bmi", "result"},
+                new String[] {"time", "weight", "BMI", "Result"},
                 new int[] {R.id.col_date_head, R.id.col_weight_head, R.id.col_BMI_head, R.id.col_criteria_head} );
         listView.setAdapter(sAdap);
     }//end showEvents
