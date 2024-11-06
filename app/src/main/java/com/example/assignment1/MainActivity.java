@@ -1,12 +1,21 @@
 package com.example.assignment1;
 
+import static android.provider.BaseColumns._ID;
+
+import android.content.ContentValues;
 import android.content.res.Configuration;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.os.Environment;
 import android.text.InputFilter;
 import android.text.Spanned;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.ListView;
+import android.widget.SimpleAdapter;
 import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
@@ -15,11 +24,27 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.InputStreamReader;
 import java.text.DecimalFormat;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import static android.provider.BaseColumns._ID;
+import static com.example.assignment1.Constants.BMI;
+import static com.example.assignment1.Constants.Result;
+import static com.example.assignment1.Constants.TABLE_NAME;
+import static com.example.assignment1.Constants.WEIGHT;
+import static com.example.assignment1.Constants.TIME;
+
 public class MainActivity extends AppCompatActivity {
+
+    private EventsData events;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -93,9 +118,46 @@ public class MainActivity extends AppCompatActivity {
                     result.setTextColor(getResources().getColor(R.color.white));
                     result.setBackgroundColor(getResources().getColor(R.color.black_red));
                 }
+
+
+                /*asg2*/
+                events = new EventsData(MainActivity.this);
+                try {
+                    addEvent();
+                    Cursor cursor = getEvents();
+                    showEvents(cursor);
+                } catch (Exception error) {
+                    error.printStackTrace();
+                } finally {
+                    events.close();
+                }
+
+
+
             }
         });
+
+        ImageView historyButton = findViewById(R.id.imageView); // ปุ่ม history (ImageView)
+
+        // ตั้งค่า OnClickListener
+        historyButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                boolean isHistoryLayout = false;
+                if (isHistoryLayout) {
+                    setContentView(R.layout.activity_main); // กลับไปที่ layout หลัก
+                    isHistoryLayout = false;
+                } else {
+                    setContentView(R.layout.activity_history); // เปลี่ยนไปใช้ activity_history.xml
+                    isHistoryLayout = true;
+                }
+            }
+        });
+
+
     }
+
+
 
     DecimalFormat formatter = new DecimalFormat("#,###.##");
 
@@ -116,30 +178,76 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
-         super.onConfigurationChanged(newConfig);
-         final TextView txtView=findViewById(R.id.textView1);
-         final TextView txtView2=findViewById(R.id.textView2);
-         final TextView txtView3=findViewById(R.id.textView3);
-         final TextView txtView4=findViewById(R.id.textView4);
-         final TextView txtView5=findViewById(R.id.textView5);
-         txtView.setTextSize(newConfig.fontScale*32);
-         txtView2.setTextSize(newConfig.fontScale*24);
-         txtView3.setTextSize(newConfig.fontScale*24);
-         txtView4.setTextSize(newConfig.fontScale*24);
-         txtView5.setTextSize(newConfig.fontScale*24);
+        super.onConfigurationChanged(newConfig);
+        final TextView txtView=findViewById(R.id.textView1);
+        final TextView txtView2=findViewById(R.id.textView2);
+        final TextView txtView3=findViewById(R.id.textView3);
+        final TextView txtView4=findViewById(R.id.textView4);
+        final TextView txtView5=findViewById(R.id.textView5);
+        txtView.setTextSize(newConfig.fontScale*32);
+        txtView2.setTextSize(newConfig.fontScale*24);
+        txtView3.setTextSize(newConfig.fontScale*24);
+        txtView4.setTextSize(newConfig.fontScale*24);
+        txtView5.setTextSize(newConfig.fontScale*24);
 
-         final EditText editText=findViewById(R.id.editText);
-         final EditText editText2=findViewById(R.id.editText2);
-         final TextView bmi=findViewById(R.id.bmi);
-         final TextView result=findViewById(R.id.result);
-         final Button calculate_btn=findViewById(R.id.calculate);
+        final EditText editText=findViewById(R.id.editText);
+        final EditText editText2=findViewById(R.id.editText2);
+        final TextView bmi=findViewById(R.id.bmi);
+        final TextView result=findViewById(R.id.result);
+        final Button calculate_btn=findViewById(R.id.calculate);
 
-         editText.setTextSize(newConfig.fontScale*24);
-         editText2.setTextSize(newConfig.fontScale*24);
-         bmi.setTextSize(newConfig.fontScale*24);
-         result.setTextSize(newConfig.fontScale*24);
-         calculate_btn.setTextSize(newConfig.fontScale*24);
+        editText.setTextSize(newConfig.fontScale*24);
+        editText2.setTextSize(newConfig.fontScale*24);
+        bmi.setTextSize(newConfig.fontScale*24);
+        result.setTextSize(newConfig.fontScale*24);
+        calculate_btn.setTextSize(newConfig.fontScale*24);
     }
+
+    private void addEvent() {
+        EditText et1 = findViewById(R.id.editText);
+        TextView et2 = findViewById(R.id.bmi);
+        TextView et3 = findViewById(R.id.result);
+
+        String weight_asg2 = et1.getText().toString();
+        String bmi_asg2 = et2.getText().toString();
+        String result_asg2 = et3.getText().toString();
+
+        SQLiteDatabase db = events.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(TIME, System.currentTimeMillis());
+        values.put(WEIGHT, weight_asg2);
+        values.put(BMI, bmi_asg2);
+        values.put(Result, result_asg2);
+        db.insert(TABLE_NAME, null, values);
+    }//end addEvent
+
+    private Cursor getEvents() {
+        String[] FROM = {_ID, TIME, WEIGHT, BMI, Result};
+        String ORDER_BY = TIME + " DESC";
+        SQLiteDatabase db = events.getReadableDatabase();
+        Cursor cursor = db.query(TABLE_NAME, FROM, null, null, null, null, ORDER_BY);
+        return cursor;
+    }//end getEvents
+
+    private void showEvents(Cursor cursor) {
+        final ListView listView = findViewById(R.id.listView);
+        final ArrayList<HashMap<String, String>> MyArrList = new ArrayList<HashMap<String, String>>();
+        HashMap<String, String> map;
+        while(cursor.moveToNext()) {
+            map = new HashMap<String, String>();
+            map.put("time", String.valueOf(cursor.getLong(1)));
+            map.put("weight", cursor.getString(2));
+            map.put("bmi", cursor.getString(3));
+            map.put("result", cursor.getString(4));
+            MyArrList.add(map);
+        }
+        SimpleAdapter sAdap;
+        sAdap = new SimpleAdapter( MainActivity.this, MyArrList, R.layout.activity_column,
+                new String[] {"time", "weight", "bmi", "result"},
+                new int[] {R.id.col_date_head, R.id.col_weight_head, R.id.col_BMI_head, R.id.col_criteria_head} );
+        listView.setAdapter(sAdap);
+    }//end showEvents
+
 
 
 }

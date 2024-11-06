@@ -18,4 +18,10 @@
     <string name="obeseclass2">Obeseclass 2</string>
     <string name="obeseclass3">Obeseclass 3</string>
 
+    <!--  assignment2  -->
+    <string name="col_date">Date</string>
+    <string name="col_weight">Weight (Kg)</string>
+    <string name="col_BMI">BMI</string>
+    <string name="col_criteria">Criteria</string>
+
 </resources>

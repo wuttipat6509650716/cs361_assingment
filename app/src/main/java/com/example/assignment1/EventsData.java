@@ -1,4 +1,4 @@
-package com.example.assignment1.;
+package com.example.assignment1;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
@@ -22,9 +22,9 @@ public class EventsData extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         db.execSQL("CREATE TABLE " + TABLE_NAME + " ("
                 + _ID +" INTEGER PRIMARY KEY AUTOINCREMENT, "
-                + TIME + " INTEGER, "
-                + WEIGHT + " INTEGER, "
-                + BMI + " INTEGER, "
+                + TIME + " TEXT, "
+                + WEIGHT + " TEXT, "
+                + BMI + " TEXT, "
                 + Result + " TEXT NOT NULL);" );
     }
     @Override
