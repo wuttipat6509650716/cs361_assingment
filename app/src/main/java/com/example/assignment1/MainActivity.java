@@ -77,6 +77,13 @@ public class MainActivity extends AppCompatActivity {
         calculate_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                String weightInput = edit_text.getText().toString();
+                String heightInput = edit_text2.getText().toString();
+                if (weightInput.isEmpty() || heightInput.isEmpty()) {
+                    return;
+                }
+
                 float resultCalculate;
                 float weightValue = Float.parseFloat(edit_text.getText().toString());
                 float heightValue = Float.parseFloat(edit_text2.getText().toString()) / 100;
@@ -136,8 +143,6 @@ public class MainActivity extends AppCompatActivity {
                     events.close();
                 }
 
-
-
             }
         });
 
@@ -150,29 +155,6 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-
-
-        /*if(isHistoryLayout){
-            ImageView backButton = findViewById(R.id.imageView3);
-            backButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    setContentView(R.layout.activity_main);
-                    isHistoryLayout = false;
-                }
-            });
-        } else {
-            ImageView historyButton = findViewById(R.id.imageView);
-            historyButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    setContentView(R.layout.activity_history);
-
-                    isHistoryLayout = true;
-                }
-            });
-        }*/
-
 
     }
 
