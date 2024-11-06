@@ -11,6 +11,7 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -77,7 +78,13 @@ public class HistoryActivity extends AppCompatActivity {
             map.put(TIME, formattedTime);
             map.put(WEIGHT, cursor.getString(2));
             map.put(BMI, cursor.getString(3));
-            map.put(Result, cursor.getString(4));
+
+            String value = cursor.getString(4);
+
+            int intValue = Integer.parseInt(value);
+            String resultString = getString(intValue);
+
+            map.put(Result, resultString);
             MyArrList.add(map);
         }
         SimpleAdapter sAdap;

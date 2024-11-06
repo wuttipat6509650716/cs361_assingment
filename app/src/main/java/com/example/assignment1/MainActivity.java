@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.text.InputFilter;
 import android.text.Spanned;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -94,58 +95,125 @@ public class MainActivity extends AppCompatActivity {
                     result.setText(R.string.severethinness);
                     result.setTextColor(getResources().getColor(R.color.black));
                     result.setBackgroundColor(getResources().getColor(R.color.chili_red));
+
+                    /*asg2*/
+                    events = new EventsData(MainActivity.this);
+                    try {
+                        addEvent(R.string.severethinness);
+                    } catch (Exception error) {
+                        error.printStackTrace();
+                    } finally {
+                        events.close();
+                    }
                 }
                 else if(resultCalculate >= 16 && resultCalculate <= 17){
                     result.setText(R.string.moderatethinness);
                     result.setTextColor(getResources().getColor(R.color.black));
                     result.setBackgroundColor(getResources().getColor(R.color.dusty_rose));
+
+                    /*asg2*/
+                    events = new EventsData(MainActivity.this);
+                    try {
+                        addEvent(R.string.moderatethinness);
+                    } catch (Exception error) {
+                        error.printStackTrace();
+                    } finally {
+                        events.close();
+                    }
                 }
                 else if(resultCalculate >= 17 && resultCalculate <= 18.5){
                     result.setText(R.string.mildthinness);
                     result.setTextColor(getResources().getColor(R.color.black));
                     result.setBackgroundColor(getResources().getColor(R.color.yellow));
+
+                    /*asg2*/
+                    events = new EventsData(MainActivity.this);
+                    try {
+                        addEvent(R.string.mildthinness);
+                    } catch (Exception error) {
+                        error.printStackTrace();
+                    } finally {
+                        events.close();
+                    }
                 }
                 else if(resultCalculate >= 18.5 && resultCalculate <= 25){
                     result.setText(R.string.normal);
                     result.setTextColor(getResources().getColor(R.color.black));
                     result.setBackgroundColor(getResources().getColor(R.color.green));
+
+                    /*asg2*/
+                    events = new EventsData(MainActivity.this);
+                    try {
+                        addEvent(R.string.normal);
+                    } catch (Exception error) {
+                        error.printStackTrace();
+                    } finally {
+                        events.close();
+                    }
                 }
                 else if(resultCalculate >= 25 && resultCalculate <= 30){
                     result.setText(R.string.overweight);
                     result.setTextColor(getResources().getColor(R.color.black));
                     result.setBackgroundColor(getResources().getColor(R.color.yellow));
+
+                    /*asg2*/
+                    events = new EventsData(MainActivity.this);
+                    try {
+                        addEvent(R.string.overweight);
+                    } catch (Exception error) {
+                        error.printStackTrace();
+                    } finally {
+                        events.close();
+                    }
                 }
                 else if(resultCalculate >= 30 && resultCalculate <= 35){
                     result.setText(R.string.obeseclass1);
                     result.setTextColor(getResources().getColor(R.color.black));
                     result.setBackgroundColor(getResources().getColor(R.color.dusty_rose));
+
+                    /*asg2*/
+                    events = new EventsData(MainActivity.this);
+                    try {
+                        addEvent(R.string.obeseclass1);
+                    } catch (Exception error) {
+                        error.printStackTrace();
+                    } finally {
+                        events.close();
+                    }
                 }
                 else if(resultCalculate >= 35 && resultCalculate <= 40){
                     result.setText(R.string.obeseclass2);
                     result.setTextColor(getResources().getColor(R.color.black));
                     result.setBackgroundColor(getResources().getColor(R.color.chili_red));
+
+                    /*asg2*/
+                    events = new EventsData(MainActivity.this);
+                    try {
+                        addEvent(R.string.obeseclass2);
+                    } catch (Exception error) {
+                        error.printStackTrace();
+                    } finally {
+                        events.close();
+                    }
                 }
                 else if(resultCalculate > 40){
                     result.setText(R.string.obeseclass3);
                     result.setTextColor(getResources().getColor(R.color.white));
                     result.setBackgroundColor(getResources().getColor(R.color.black_red));
-                }
 
-
-                /*asg2*/
-                events = new EventsData(MainActivity.this);
-                try {
-                    addEvent();
-
-                } catch (Exception error) {
-                    error.printStackTrace();
-                } finally {
-                    events.close();
+                    /*asg2*/
+                    events = new EventsData(MainActivity.this);
+                    try {
+                        addEvent(R.string.obeseclass3);
+                    } catch (Exception error) {
+                        error.printStackTrace();
+                    } finally {
+                        events.close();
+                    }
                 }
 
             }
         });
-
 
         ImageView historyButton = findViewById(R.id.imageView);
         historyButton.setOnClickListener(new View.OnClickListener() {
@@ -155,10 +223,7 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-
     }
-
-
 
     DecimalFormat formatter = new DecimalFormat("#,###.##");
 
@@ -204,25 +269,21 @@ public class MainActivity extends AppCompatActivity {
         calculate_btn.setTextSize(newConfig.fontScale*24);
     }
 
-    private void addEvent() {
+    private void addEvent(int resultResourceId) {
         EditText et1 = findViewById(R.id.editText);
         TextView et2 = findViewById(R.id.bmi);
-        TextView et3 = findViewById(R.id.result);
+        /*TextView et3 = findViewById(R.id.result);*/
 
         String weight_asg2 = et1.getText().toString();
         String bmi_asg2 = et2.getText().toString();
-        String result_asg2 = et3.getText().toString();
+        /*String result_asg2 = et3.getText().toString();*/
 
         SQLiteDatabase db = events.getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put(TIME, System.currentTimeMillis());
         values.put(WEIGHT, weight_asg2);
         values.put(BMI, bmi_asg2);
-        values.put(Result, result_asg2);
+        values.put(Result, resultResourceId);
         db.insert(TABLE_NAME, null, values);
     }//end addEvent
-
-
-
-
 }
