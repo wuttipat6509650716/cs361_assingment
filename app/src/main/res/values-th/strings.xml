@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Assignment1</string>
-    <string name="weight_kg">น้ำหนัก (กิโลกรัม)</string>
+    <string name="weight_kg">น้ำหนัก\n(กิโลกรัม)</string>
     <string name="height_cm">ส่วนสูง (เซนติเมตร)</string>
     <string name="BMI">ค่าดัชนีมวลกาย</string>
     <string name="result">อยู่ในเกณฑ์</string>
@@ -18,8 +18,8 @@
     <string name="obeseclass2">อ้วนระดับ 2</string>
     <string name="obeseclass3">อ้วนระดับ 3</string>
     <string name="Date">วันที่</string>
-    <string name="col_date">วันที่</string>
+    <string name="col_date">\nวันที่</string>
     <string name="col_weight">น้ำหนัก (กก)</string>
-    <string name="col_BMI">ค่าดัชนีมวลกาย</string>
-    <string name="col_criteria">อยู่ในเกณฑ์</string>
+    <string name="col_BMI">ค่าดัชนี\nมวลกาย</string>
+    <string name="col_criteria">\nอยู่ในเกณฑ์</string>
 </resources>
